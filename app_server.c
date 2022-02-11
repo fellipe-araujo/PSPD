@@ -11,10 +11,10 @@ Result *analyse_vector_1000_svc(vetor *argp, struct svc_req *rqstp) {
 
 	printf("Requisicao feita para analise de vetor!\n");
 
-	result.smallest = 10000.0;
-	result.biggest = -1.0;
+	result.smallest = argp->vetor_val[0];
+	result.biggest = argp->vetor_val[0];
 
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < argp->vetor_len; i++) {
     if (argp->vetor_val[i] < result.smallest) {
       result.smallest = argp->vetor_val[i];
     }

@@ -7,15 +7,15 @@
 #include "app.h"
 #include "math.h"
 
-void initialize_vector(float *vector) {
-  for (int i = 0; i < 10; i++) {
-    vector[i] = pow(i - 10 / 2, 2);
+void initialize_vector(vetor v) {
+  for (int i = 0; i < v.vetor_len; i++) {
+    v.vetor_val[i] = pow(i - 10 / 2, 2);
   }
 }
 
-void calculate_positions_of_vector(float *vector) {
-  for (int i = 0; i < 10; i++) {
-    vector[i] = sqrt(vector[i]);
+void calculate_positions_of_vector(vetor v) {
+  for (int i = 0; i < v.vetor_len; i++) {
+    v.vetor_val[i] = sqrt(v.vetor_val[i]);
   }
 }
 
@@ -38,12 +38,19 @@ int main (int argc, char *argv[]) {
 	Result result;
 	vetor v;
 
-	v.vetor_val = (float*)malloc(sizeof(float) * 12);
+	v.vetor_len = atoi(argv[2]);
+	v.vetor_val = (float*)malloc(sizeof(float) * (v.vetor_len + 2));
 
-	initialize_vector(v.vetor_val);
-	calculate_positions_of_vector(v.vetor_val);
+	initialize_vector(v);
+	calculate_positions_of_vector(v);
 
-	if(argc != 2) {
+	printf("[ ");
+	for(int i = 0; i < v.vetor_len; i++) {
+		printf("%.1f ", v.vetor_val[i]);
+	}
+	printf("]\n");
+
+	if(argc != 3) {
 		fprintf(stderr, "Uso: %s hostname\n", argv[0]);
 		exit(0);
 	}
@@ -54,8 +61,6 @@ int main (int argc, char *argv[]) {
 		clnt_pcreateerror(argv[1]);
 		exit(1);
 	}
-
-	v.vetor_len = 10;
 
 	result = analyse_vector(clnt, &v);
 
