@@ -21,6 +21,5 @@ analyse_vector_1000(vetor *argp, CLIENT *clnt)
 		TIMEOUT) != RPC_SUCCESS) {
 		return (NULL);
 	}
-
 	return (&clnt_res);
 }

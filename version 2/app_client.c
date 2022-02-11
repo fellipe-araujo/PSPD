@@ -35,26 +35,34 @@ Result analyse_vector(CLIENT *clnt, vetor *v) {
 int main (int argc, char *argv[]) {
 	CLIENT *clnt1, *clnt2;
 	Result result1, result2;
-	vetor v1, v2;
+	vetor v0, v1, v2;
 	int index_begin, index_end;
 	int vector_lenght;
 
-	vector_lenght = atoi(argv[2]);
+	vector_lenght = atoi(argv[3]);
 	index_begin = 0;
 	index_end = vector_lenght;
 
-	v1.vetor_len = vector_lenght;
+	v0.vetor_len = vector_lenght;
+	v0.vetor_val = (float*)malloc(sizeof(float) * (v0.vetor_len + 2));
+	v1.vetor_len = vector_lenght / 2;
 	v1.vetor_val = (float*)malloc(sizeof(float) * (v1.vetor_len + 2));
-	v2.vetor_len = vector_lenght;
+	v2.vetor_len = vector_lenght / 2;
 	v2.vetor_val = (float*)malloc(sizeof(float) * (v2.vetor_len + 2));
 
-	// Vector 1
-	initialize_vector(v1, 0, (index_begin + index_end) / 2);
-	calculate_positions_of_vector(v1, 0, (index_begin + index_end) / 2);
+	// Vector 0
+	initialize_vector(v0, 0, index_end);
+	calculate_positions_of_vector(v0, 0, index_end);
 
-	// Vector 2
-	initialize_vector(v2, (index_begin + index_end) / 2, index_end);
-	calculate_positions_of_vector(v2, (index_begin + index_end) / 2, index_end);
+	// Populate vector 1
+	for (int i = index_begin; i < (index_begin + index_end) / 2; i++) {
+		v1.vetor_val[i] = v0.vetor_val[i];
+	}
+
+	// Populate vector 2
+	for (int i = (index_begin + index_end) / 2; i < index_end; i++) {
+		v2.vetor_val[i] = v0.vetor_val[i];
+	}
 
 	printf("[ ");
 	for(int i = 0; i < v1.vetor_len; i++) {
