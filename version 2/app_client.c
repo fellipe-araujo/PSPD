@@ -60,8 +60,8 @@ int main (int argc, char *argv[]) {
 	}
 
 	// Populate vector 2
-	for (int i = (index_begin + index_end) / 2; i < index_end; i++) {
-		v2.vetor_val[i] = v0.vetor_val[i];
+	for (int i = (index_begin + index_end) / 2, j = 0; i < index_end; i++, j++) {
+		v2.vetor_val[j] = v0.vetor_val[i];
 	}
 
 	printf("[ ");
