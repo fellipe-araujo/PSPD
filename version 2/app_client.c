@@ -64,18 +64,6 @@ int main (int argc, char *argv[]) {
 		v2.vetor_val[j] = v0.vetor_val[i];
 	}
 
-	printf("[ ");
-	for(int i = 0; i < v1.vetor_len; i++) {
-		printf("%.1f ", v1.vetor_val[i]);
-	}
-	printf("]\n");
-
-	printf("[ ");
-	for(int i = 0; i < v2.vetor_len; i++) {
-		printf("%.1f ", v2.vetor_val[i]);
-	}
-	printf("]\n");
-
 	if(argc != 4) {
 		fprintf(stderr, "Uso: %s hostname\n", argv[0]);
 		exit(0);
