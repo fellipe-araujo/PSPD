@@ -7,23 +7,26 @@
 #include "app.h"
 #include "math.h"
 
+// Inicialização do vetor
 void initialize_vector(vetor v) {
   for (int i = 0; i < v.vetor_len; i++) {
     v.vetor_val[i] = pow(i - 10 / 2, 2);
   }
 }
 
+// Cálculo de cada posição do vetor
 void calculate_positions_of_vector(vetor v) {
   for (int i = 0; i < v.vetor_len; i++) {
     v.vetor_val[i] = sqrt(v.vetor_val[i]);
   }
 }
 
+// Função que recebe um vetor para fazer a análise e obter o menor e o maior valor
 Result analyse_vector(CLIENT *clnt, vetor *v) {
 	Result *result;
 
+	// Chama o stub cliente criado pelo rpcgen
 	result = analyse_vector_1000(v, clnt);
-	// printf("Maior: %1.f | Menor: %1.f\n", result->biggest, result->smallest);
 
 	if (result == NULL) {
 		fprintf(stderr, "Problema na chamada RPC\n");
@@ -38,17 +41,13 @@ int main (int argc, char *argv[]) {
 	Result result;
 	vetor v;
 
+	// Recupera o tamanho do vetor passado como argumento
 	v.vetor_len = atoi(argv[2]);
+	// Inicialização do vetor de forma dinâmica
 	v.vetor_val = (float*)malloc(sizeof(float) * (v.vetor_len + 2));
 
 	initialize_vector(v);
 	calculate_positions_of_vector(v);
-
-	printf("[ ");
-	for(int i = 0; i < v.vetor_len; i++) {
-		printf("%.1f ", v.vetor_val[i]);
-	}
-	printf("]\n");
 
 	if(argc != 3) {
 		fprintf(stderr, "Uso: %s hostname\n", argv[0]);
@@ -57,11 +56,13 @@ int main (int argc, char *argv[]) {
 	
 	clnt = clnt_create(argv[1], PROG, VERSION, "udp");
 
+	// Garantindo a criação da ligação com o remoto
 	if (clnt == (CLIENT *)NULL) {
 		clnt_pcreateerror(argv[1]);
 		exit(1);
 	}
 
+	// Resultado da análise do vetor
 	result = analyse_vector(clnt, &v);
 
 	printf("O maior numero eh: %.1f\n", result.biggest);

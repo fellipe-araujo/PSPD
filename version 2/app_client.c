@@ -7,21 +7,25 @@
 #include "app.h"
 #include "math.h"
 
+// Inicialização do vetor
 void initialize_vector(vetor v, int index_begin, int index_end) {
   for (int i = index_begin; i < index_end; i++) {
     v.vetor_val[i] = pow(i - 10 / 2, 2);
   }
 }
 
+// Cálculo de cada posição do vetor
 void calculate_positions_of_vector(vetor v, int index_begin, int index_end) {
   for (int i = index_begin; i < index_end; i++) {
     v.vetor_val[i] = sqrt(v.vetor_val[i]);
   }
 }
 
+// Função que recebe um vetor para fazer a análise e obter o menor e o maior valor
 Result analyse_vector(CLIENT *clnt, vetor *v) {
 	Result *result;
 
+	// Chama o stub cliente criado pelo rpcgen
 	result = analyse_vector_1000(v, clnt);
 
 	if (result == NULL) {
@@ -39,10 +43,12 @@ int main (int argc, char *argv[]) {
 	int index_begin, index_end;
 	int vector_lenght;
 
+	// Recupera o tamanho do vetor passado como argumento
 	vector_lenght = atoi(argv[3]);
 	index_begin = 0;
 	index_end = vector_lenght;
 
+	// Inicialização dos vetores de forma dinâmica
 	v0.vetor_len = vector_lenght;
 	v0.vetor_val = (float*)malloc(sizeof(float) * (v0.vetor_len + 2));
 	v1.vetor_len = vector_lenght / 2;
@@ -72,15 +78,19 @@ int main (int argc, char *argv[]) {
 	clnt1 = clnt_create(argv[1], PROG, VERSION, "udp");
 	clnt2 = clnt_create(argv[2], PROG, VERSION, "udp");
 
+	// Garantindo a criação da ligação com o remoto 1
 	if (clnt1 == (CLIENT *)NULL) {
 		clnt_pcreateerror(argv[1]);
 		exit(1);
 	}
+
+	// Garantindo a criação da ligação com o remoto 2
 	if (clnt2 == (CLIENT *)NULL) {
 		clnt_pcreateerror(argv[2]);
 		exit(1);
 	}
 
+	// Resultado das análises dos vetores v1 e v2
 	result1 = analyse_vector(clnt1, &v1);
 	result2 = analyse_vector(clnt2, &v2);
 
