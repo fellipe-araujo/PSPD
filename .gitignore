@@ -3,3 +3,4 @@ app_client
 app_server
 node_modules
 package-lock.json
+.vscode
