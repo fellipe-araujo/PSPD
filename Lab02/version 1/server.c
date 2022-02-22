@@ -149,7 +149,7 @@ void server_handler(int argc, char* argv[]) {
     }
 
     // printf("[ ");
-    // for (int k = 0; k < 10000; k++) {
+    // for (int k = 0; k < 10; k++) {
     //   printf("%.1f ", vector[k]);
     // }
     // printf("]\n");

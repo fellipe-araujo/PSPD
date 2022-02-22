@@ -77,7 +77,7 @@ void client_handler(int* argc) {
   calculate_positions_of_vector(vector, 0, 10000);
 
   // printf("[ ");
-  // for (int k = 0; k < 10000; k++) {
+  // for (int k = 0; k < 10; k++) {
   //   printf("%.1f ", vector[k]);
   // }
   // printf("]\n");
