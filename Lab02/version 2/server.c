@@ -9,6 +9,8 @@
 #include <pthread.h>
 #include <unistd.h>
 
+#define SERVER_PORT 5100
+
 typedef struct Result {
   float smallest;
   float biggest;
@@ -36,11 +38,13 @@ void process_client(float vector[], char* ip_server) {
   struct sockaddr_in server_addr; /* dados do servidor */
 
   /* dados do servidor */
+  memset(&server_addr, '0', sizeof(server_addr));
   server_addr.sin_family = AF_INET;
   server_addr.sin_addr.s_addr = inet_addr(ip_server);
-  server_addr.sin_port = htons(atoi("5100"));
+  server_addr.sin_port = htons(SERVER_PORT);
 
   /* dados do cliente */
+  memset(&client_addr, '0', sizeof(client_addr));
   client_addr.sin_family = AF_INET;
   client_addr.sin_addr.s_addr = htonl(INADDR_ANY);
   client_addr.sin_port = htons(0);
@@ -70,7 +74,7 @@ void process_client(float vector[], char* ip_server) {
   Result result;
   float vector_result[2];
 
-  analyse_vector(vector, &result, 0, 10);
+  analyse_vector(vector, &result, 0, 5000);
 
   vector_result[0] = result.smallest;
   vector_result[1] = result.biggest;
@@ -112,6 +116,7 @@ void server_handler(int argc, char* argv[]) {
   }
   
   /* Preenchendo dados sobre este servidor */
+  memset(&endServ, '0', sizeof(endServ));
   endServ.sin_family = AF_INET;
   endServ.sin_addr.s_addr = inet_addr(argv[1]);
   endServ.sin_port = htons(atoi(argv[2]));
@@ -137,22 +142,16 @@ void server_handler(int argc, char* argv[]) {
     
     /* inicia a variavel que vai receber os dados */
     printf("----------- Aceitando conexao ----------\n");
-    // memset(rcv_msg, 0x0, MAX_MSG); /* init buffer */
 
-    float vector[10];
-    
+    float vector[5000];
+    memset(&vector, '0', sizeof(vector));
+
     /* recebe os dados desse cliente */
     n = recv(newSd, vector, sizeof(vector), 0); /* espera por dados */
     if (n < 0) {
       printf("Nao pode receber os dados\n");
       return;
     }
-
-    // printf("[ ");
-    // for (int k = 0; k < 10000; k++) {
-    //   printf("%.1f ", vector[k]);
-    // }
-    // printf("]\n");
 
     printf("{TCP, IP_S: %s | Porta_S: %u}\n", inet_ntoa(endServ.sin_addr),
            ntohs(endServ.sin_port));
