@@ -14,6 +14,11 @@ typedef struct Result {
   float biggest;
 }Result;
 
+typedef struct Config {
+  char* ip_server;
+  int port_server;
+}Config;
+
 // Função que recebe um vetor para fazer a análise e obter o menor e o maior valor
 void analyse_vector(float vector[], Result* result) {
 
@@ -30,15 +35,15 @@ void analyse_vector(float vector[], Result* result) {
   }
 }
 
-void process_client(float vector[], char* ip_server) {
+void process_client(float vector[], Config config) {
   int client_id, server_id, i;
   struct sockaddr_in client_addr;  /* dados do cliente */
   struct sockaddr_in server_addr; /* dados do servidor */
 
   /* dados do servidor */
   server_addr.sin_family = AF_INET;
-  server_addr.sin_addr.s_addr = inet_addr(ip_server);
-  server_addr.sin_port = htons(atoi("5100"));
+  server_addr.sin_addr.s_addr = inet_addr(config.ip_server);
+  server_addr.sin_port = htons(config.port_server);
 
   /* dados do cliente */
   client_addr.sin_family = AF_INET;
@@ -75,8 +80,6 @@ void process_client(float vector[], char* ip_server) {
   vector_result[0] = result.smallest;
   vector_result[1] = result.biggest;
 
-  printf("Menor: %.1f | Maior: %.1f\n\n", result.smallest, result.biggest);
-
   char* message;
   message = "Vetor analisado";
 
@@ -100,7 +103,7 @@ void server_handler(int argc, char* argv[]) {
   rcv_msg = "Mensagem recebida";
 
   if (argc < 2) {
-    printf("Informe: ./server <IP_ADDRESS>\n");
+    printf("Informe: ./server <IP_ADDRESS_SERVER> <PORT_SERVER>\n");
     exit(1);
   }
   
@@ -114,7 +117,7 @@ void server_handler(int argc, char* argv[]) {
   /* Preenchendo dados sobre este servidor */
   endServ.sin_family = AF_INET;
   endServ.sin_addr.s_addr = inet_addr(argv[1]);
-  endServ.sin_port = htons(atoi("5200"));
+  endServ.sin_port = htons(atoi(argv[2]));
   
   /* Fazendo bind na porta do servidor */
   if (bind(sd, (struct sockaddr *)&endServ, sizeof(endServ)) < 0) {
@@ -137,9 +140,9 @@ void server_handler(int argc, char* argv[]) {
     
     /* inicia a variavel que vai receber os dados */
     printf("----------- Aceitando conexao ----------\n");
-    // memset(rcv_msg, 0x0, MAX_MSG); /* init buffer */
 
     float vector[10000];
+    memset(&vector, '0', sizeof(vector));
     
     /* recebe os dados desse cliente */
     n = recv(newSd, vector, sizeof(vector), 0); /* espera por dados */
@@ -148,20 +151,18 @@ void server_handler(int argc, char* argv[]) {
       return;
     }
 
-    // printf("[ ");
-    // for (int k = 0; k < 10; k++) {
-    //   printf("%.1f ", vector[k]);
-    // }
-    // printf("]\n");
-
     printf("{TCP, IP_S: %s | Porta_S: %u}\n", inet_ntoa(endServ.sin_addr),
            ntohs(endServ.sin_port));
     printf("{TCP, IP_C: %s | Porta_C: %u} => %s\n",
            inet_ntoa(endCli.sin_addr),
            ntohs(endCli.sin_port), rcv_msg);
-    printf("----------- Encerrando conexao --------\n\n");
+    printf("----------- Encerrando conexao ----------\n\n");
 
-    process_client(vector, inet_ntoa(endCli.sin_addr));
+    Config config;
+    config.ip_server = inet_ntoa(endCli.sin_addr);
+    config.port_server = 5100;
+
+    process_client(vector, config);
     
     close(newSd);
   }

@@ -15,6 +15,11 @@ typedef struct Result {
   float biggest;
 }Result;
 
+typedef struct Args {
+  char** argv;
+  int argc;
+}Args;
+
 // Inicialização do vetor
 void initialize_vector(float vector[], int index_begin, int index_end) {
   for (int i = index_begin; i < index_end; i++) {
@@ -29,15 +34,10 @@ void calculate_positions_of_vector(float vector[], int index_begin, int index_en
   }
 }
 
-void client_handler(int* argc) {
+void client_handler(char* argv[]) {
   int client_id, server_id;
   struct sockaddr_in client_addr;  /* dados do cliente */
   struct sockaddr_in server_addr; /* dados do servidor */
-
-  if (*argc < 2) {
-    printf("Informe: ./client <IP_ADDRESS>\n");
-    exit(1);
-  }
 
   /* criando um socket */
   client_id = socket(AF_INET, SOCK_STREAM, 0);
@@ -48,7 +48,7 @@ void client_handler(int* argc) {
 
   /* dados do servidor(es) */
   server_addr.sin_family = AF_INET;
-  server_addr.sin_addr.s_addr = inet_addr("192.168.0.15");
+  server_addr.sin_addr.s_addr = inet_addr("192.168.0.16");
   server_addr.sin_port = htons(atoi("5200"));
 
   /* dados do cliente */
@@ -73,14 +73,9 @@ void client_handler(int* argc) {
 
   // Inicializa o vetor e calcula cada posição
   float vector[10000];
+  memset(&vector, '0', sizeof(vector));
   initialize_vector(vector, 0, 10000);
   calculate_positions_of_vector(vector, 0, 10000);
-
-  // printf("[ ");
-  // for (int k = 0; k < 10; k++) {
-  //   printf("%.1f ", vector[k]);
-  // }
-  // printf("]\n");
 
   char* message;
   message = "vetor sendo enviado";
@@ -114,7 +109,7 @@ void process_server(char* argv[]) {
   /* Preenchendo dados sobre este servidor */
   client_addr.sin_family = AF_INET;
   client_addr.sin_addr.s_addr = inet_addr(argv[1]);
-  client_addr.sin_port = htons(atoi("5100"));
+  client_addr.sin_port = htons(atoi(argv[2]));
   
   /* Fazendo bind na porta do servidor */
   if (bind(server_id, (struct sockaddr *)&client_addr, sizeof(client_addr)) < 0) {
@@ -137,7 +132,6 @@ void process_server(char* argv[]) {
     
     /* inicia a variavel que vai receber os dados */
     printf("----------- Aceitando conexao ----------\n");
-    // memset(rcv_msg, 0x0, MAX_MSG); /* init buffer */
 
     float vector_result[2];
     
@@ -165,7 +159,7 @@ void process_server(char* argv[]) {
 int main(int argc, char *argv[]) {
   pthread_t tid[2];
 
-  pthread_create(&tid[0], NULL, (void *)client_handler, (void *)&argc);
+  pthread_create(&tid[0], NULL, (void *)client_handler, (void *)argv);
   pthread_create(&tid[1], NULL, (void *)process_server, (void *)argv);
 
   pthread_join(tid[0], NULL);
