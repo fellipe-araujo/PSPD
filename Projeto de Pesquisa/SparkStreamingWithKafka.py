@@ -66,6 +66,6 @@ if __name__ == "__main__":
 
   wordCounts = words.groupBy('word').count()
 
-  query = wordCounts.writeStream.outputMode("complete").format("console").start()
+  query = wordCounts.writeStream.foreachBatch(generate_metrics).outputMode("update").start()
                 
   query.awaitTermination()
