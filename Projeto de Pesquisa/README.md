@@ -49,7 +49,7 @@ nc -lk 9999
 *Obs2: para `<host>`, coloque o **ip** do seu computador.*
 
 ```bash
-<diretorio-descompactado-spark>/spark-3.1.3-bin-hadoop3.2/bin/spark-submit ./SparkStreamingWithSocket.py <host> 9999 ./checkpoint ./logs
+<diretorio-descompactado-spark>/spark-3.1.3-bin-hadoop3.2/bin/spark-submit ./SparkStreamingWithSocket.py <host> 9999
 ```
 
 3) Agora, é só digitar um texto no **terminal 1** (onde o *netcat* está em execução) e ver a saída resultante no **terminal 2**.
