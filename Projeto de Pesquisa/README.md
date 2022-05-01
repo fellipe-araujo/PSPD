@@ -44,14 +44,10 @@ nc -lk 9999
 
 2) Para o **terminal 2**, esteja na pasta `/Projeto de Pesquisa`. Aqui, iremos executar o **Spark Streaming** para ouvir e receber dados na porta *9999*:
 
-*Obs1: para `<diretorio-descompactado-spark>`, coloque o caminho onde você fez o download e descompactou o spark.*
-
-*Obs2: para `<host>`, coloque o **ip** do seu computador.*
-
 ```bash
-<diretorio-descompactado-spark>/spark-3.1.3-bin-hadoop3.2/bin/spark-submit ./SparkStreamingWithSocket.py <host> 9999
+python3 SparkStreamingWithSocket.py <host> 9999
 ```
 
-3) Agora, é só digitar um texto no **terminal 1** (onde o *netcat* está em execução) e ver a saída resultante no **terminal 2**.
+1) Agora, é só digitar um texto no **terminal 1** (onde o *netcat* está em execução) e ver a saída resultante no **terminal 2**.
 
 *Obs: será gerado um arquivo chamado **logs** com os resultados da contagem de palavras*.
