@@ -66,16 +66,6 @@ if __name__ == "__main__":
 
   wordCounts = words.groupBy('word').count()
 
-  query = wordCounts.writeStream.foreachBatch(generate_metrics).outputMode("update").start()
+  query = wordCounts.writeStream.foreachBatch(generate_metrics).outputMode("complete").start()
                 
   query.awaitTermination()
-
-    # lines = spark.readStream\
-    # .format("kafka")\
-    # .option("kafka.bootstrap.servers", "moped-01.srvs.cloudkafka.com:9094,moped-02.srvs.cloudkafka.com:9094,moped-03.srvs.cloudkafka.com:9094")\
-    # .option("startingOffsets", "latest")\
-    # .option("kafka.sasl.mechanism", "SCRAM-SHA-256")\
-    # .option("kafka.security.protocol", "SASL_SSL")\
-    # .option("subscribe", "gjyay8q1-topic1")\
-    # .option("kafka.sasl.jaas.config", "org.apache.kafka.common.security.scram.ScramLoginModule required username=\"gjyay8q1\" password=\"lIyn9FDsJ_NDAP43oz_oVHw436hHsyLh\";")\
-    # .load()
