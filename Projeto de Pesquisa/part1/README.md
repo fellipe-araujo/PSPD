@@ -1,10 +1,10 @@
 # Parte 1: Spark Streaming + Socket (Netcat)
 
-Para a configuração de ambiente, será necessário instalar algumas ferramentas e bibliotecas.
+Para a configuração de ambiente, será necessário instalar algumas ferramentas e bibliotecas. No decorrer deste README, será explicitado como baixar, instalar e configurar tudo o que for necessário.
 
 ## Versões dos *framework's* e bibliotecas
 
-* spark: **v3.1.3**
+* spark: **v3.2.1**
 * hadoop: **v3.2**
 * python: **v3.8**
 
@@ -17,7 +17,7 @@ Para a configuração de ambiente, será necessário instalar algumas ferramenta
 1) Para a instalação do **spark**, use o comando abaixo para realizar o download:
 
 ```bash
-wget https://downloads.apache.org/spark/spark-3.1.3/spark-3.1.3-bin-hadoop3.2.tgz
+wget https://dlcdn.apache.org/spark/spark-3.2.1/spark-3.2.1-bin-hadoop3.2-scala2.13.tgz
 ```
 
 2) Extraia o arquivo baixado com o comando abaixo:
