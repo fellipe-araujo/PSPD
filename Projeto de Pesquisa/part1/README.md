@@ -26,7 +26,7 @@ sudo apt-get install netcat
 
 ## Instalação das Dependências
 
-1) Para instalar as **dependências** desse projeto, execute o comando abaixo:
+1) Para instalar as **dependências** desse projeto, execute o comando abaixo estando na pasta `/Projeto de Pesquisa`:
 
 ```bash
 pip3 install -r requirements.txt
@@ -64,7 +64,7 @@ nc -lk 9999
 
 ### Conectando um aplicativo ao Cluster (terminal 2)
 
-Para o **terminal 2**, esteja na pasta `/Projeto de Pesquisa`. Aqui, iremos executar o **Spark Streaming** para ouvir e receber dados na porta *9999*:
+Para o **terminal 2**, esteja na pasta `/Projeto de Pesquisa/part1`. Aqui, iremos executar o **Spark Streaming** para ouvir e receber dados na porta *9999*:
 
 ```bash
 <diretorio-descompactado-spark>/bin/spark-submit --master spark://<master>:7077 ./SparkStreamingWithSocker.py <master> 9999
