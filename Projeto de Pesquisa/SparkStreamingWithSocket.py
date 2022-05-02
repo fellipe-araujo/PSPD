@@ -44,17 +44,18 @@ if __name__ == "__main__":
 		print('Usage: SparkStreamingWithSocket.py <hostname> <port>')
 
 	spark = SparkSession.builder.appName("StructuredNetworkWordCount").getOrCreate()
+	spark.sparkContext.setLogLevel("WARN")
 
-  # Create DataFrame representing the stream of input lines from connection to localhost:9999
+  # Cria um DataFrame representando o fluxo de linhas de entrada da conexão para <host>:<port>
 	lines = spark.readStream.format("socket").option("host", sys.argv[1]).option("port", int(sys.argv[2])).load()
 
-  # Split the lines into words
+  # Divide as linhas em palavras
 	words = lines.select(explode(split(lines.value, " ")).alias("word"))
 
-  # Generate running word count
+  # Geraa a contagem de palavras em execução
 	wordCounts = words.groupBy("word").count()
 
-  # Start running the query that prints the running counts to the console
-	query = wordCounts.writeStream.foreachBatch(generate_metrics).outputMode("update").start()
+  # Começa a executar a consulta e, para cada requisição, é executada a função personalizada 'generate_metrics'
+	query = wordCounts.writeStream.foreachBatch(generate_metrics).outputMode("complete").start()
 
 	query.awaitTermination()
