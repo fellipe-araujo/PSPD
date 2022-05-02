@@ -44,7 +44,7 @@ if __name__ == "__main__":
 		print('Usage: SparkStreamingWithSocket.py <hostname> <port>')
 
 	spark = SparkSession.builder.appName("StructuredNetworkWordCount").getOrCreate()
-	spark.sparkContext.setLogLevel("WARN")
+	# spark.sparkContext.setLogLevel("WARN")
 
   # Cria um DataFrame representando o fluxo de linhas de entrada da conexão para <host>:<port>
 	lines = spark.readStream.format("socket").option("host", sys.argv[1]).option("port", int(sys.argv[2])).load()
