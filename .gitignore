@@ -9,3 +9,6 @@ server
 
 checkpoint
 logs
+text-examples.txt
+
+yarn.lock
