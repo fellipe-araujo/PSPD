@@ -2,6 +2,16 @@
 
 Para a configuração de ambiente, será necessário instalar algumas ferramentas e bibliotecas.
 
+## Versões dos *framework's* e bibliotecas
+
+* spark: **v3.1.3**
+* hadoop: **v3.2**
+* python: **v3.8**
+
+## Sistema Operacional utilizado
+
+* Ubuntu 20.04.4 LTS
+
 ## Instalação do Spark
 
 1) Para a instalação do **spark**, use o comando abaixo para realizar o download:
