@@ -10,18 +10,18 @@ dict_response = {'s': 0, 'p': 0, 'r': 0, '6': 0, '8': 0, '11': 0, 'total': 0}
 def count_words(array_words):
   for item in array_words:
     if item[0].startswith('s') or item[0].startswith('S'):
-      dict_response["s"] += 1
+      dict_response["s"] += item[1]
     elif item[0].startswith('p') or item[0].startswith('P'):
-      dict_response["p"] += 1
+      dict_response["p"] += item[1]
     elif item[0].lower().startswith('r') or item[0].startswith('R'):
-      dict_response["r"] += 1
+      dict_response["r"] += item[1]
     
     if len(item[0]) == 6:
-      dict_response["6"] += 1
+      dict_response["6"] += item[1]
     elif len(item[0]) == 8:
-      dict_response["8"] += 1
+      dict_response["8"] += item[1]
     elif len(item[0]) == 11:
-      dict_response["11"] += 1
+      dict_response["11"] += item[1]
 
   return dict_response
 
