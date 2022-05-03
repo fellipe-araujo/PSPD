@@ -4,16 +4,16 @@ from pyspark.sql.functions import split
 from tabulate import tabulate
 from datetime import datetime
 
+initial_time = datetime.now().strftime('%d/%m/%y %H:%M:%S')
 dict_response = {'s': 0, 'p': 0, 'r': 0, '6': 0, '8': 0, '11': 0, 'total': 0}
 
 def count_words(array_words):
-
   for item in array_words:
-    if item[0].startswith('s'):
+    if item[0].startswith('s') or item[0].startswith('S'):
       dict_response["s"] += 1
-    elif item[0].startswith('p'):
+    elif item[0].startswith('p') or item[0].startswith('P'):
       dict_response["p"] += 1
-    elif item[0].startswith('r'):
+    elif item[0].lower().startswith('r') or item[0].startswith('R'):
       dict_response["r"] += 1
     
     if len(item[0]) == 6:
@@ -55,6 +55,15 @@ def generate_metrics(df, epoch_id):
     print("\nQUANTIDADE DE PALAVRAS RECEBIDAS QUE POSSUEM 8 LETRAS: {}".format(results["8"]))
     print("\nQUANTIDADE DE PALAVRAS RECEBIDAS QUE POSSUEM 11 LETRAS: {}".format(results["11"]))
     print(broken)
+
+    period = 'INTERVALO DE TEMPO MONITORADO: {}  -  {}'.format(initial_time, now)
+    total_words_result = '\nQUANTIDADE TOTAL DE PALAVRAS RECEBIDAS: {}'.format(results["total"])
+
+    with open("./logs",'w') as f:
+      pass
+
+    with open('./logs', 'a') as f:
+      f.write(period + "\n" + total_words_result + "\n\n" + "%s" % (tabulate(dataTable, headers=columnNames, tablefmt="fancy_grid")) + '\n' + broken + '\n')
 
 if __name__ == "__main__":
   spark = SparkSession.builder.appName("StructuredKafkaWordCount").getOrCreate()

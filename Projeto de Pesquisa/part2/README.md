@@ -56,20 +56,20 @@ pip3 install -r requirements.txt
 <diretorio-descompactado-kafka>/bin/kafka-server-start.sh <diretorio-descompactado-kafka>/config/server.properties
 ```
 
-### Deploy de uma aplicação Spark + Kafka
-
-1) Em um **terminal 3**, faça a implantação da aplicação com o comando abaixo:
-
-```bash
-<diretorio-descompactado-spark>/bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.13:3.2.1 ./SparkStreamingWithKafka.py
-```
-
 ### Escrevendo um *evento* em um *tópico*
 
-1) Em um **terminal 4**, envie um texto através de um ***Kafka Producer*** e veja a saída resultante no **terminal 3**. Use o comando abaixo:
+1) Em um **terminal 3**, envie um texto através de um ***Kafka Producer*** e veja a saída resultante no **terminal 4**. Use o comando abaixo:
 
 ```bash
 python3 kafkaProducer.py localhost:9092 topic1
 ```
 
 *Obs1: será gerado um arquivo chamado **logs** com os resultados da contagem de palavras em diferentes categorias*.
+
+### Deploy de uma aplicação Spark + Kafka
+
+1) Em um **terminal 4**, faça a implantação da aplicação com o comando abaixo:
+
+```bash
+<diretorio-descompactado-spark>/bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.13:3.2.1 ./SparkStreamingWithKafka.py
+```
