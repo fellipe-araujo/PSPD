@@ -84,4 +84,6 @@ Para o **terminal 2**, esteja na pasta `/Projeto de Pesquisa/part1`. Aqui, iremo
 
 * Agora, é só digitar um texto no **terminal 1** (onde o *netcat* está em execução) e ver a saída resultante no **terminal 2**.
 
-*Obs2: será gerado um arquivo chamado **logs** com os resultados da contagem de palavras*.
+***Obs2: Quando aparecer a seguinte mensagem no terminal `## BATCH <ID> FINALIZADO. AGUARDANDO NOVAS REQUISICOES ##`, significa que aplicação está pronta para receber novos dados.***
+
+*Obs3: será gerado um arquivo chamado **logs** com os resultados da contagem de palavras*.

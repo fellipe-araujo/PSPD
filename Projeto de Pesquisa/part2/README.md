@@ -73,3 +73,4 @@ python3 kafkaProducer.py localhost:9092 topic1
 ```bash
 <diretorio-descompactado-spark>/bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.13:3.2.1 ./SparkStreamingWithKafka.py
 ```
+***Obs2: Quando aparecer a seguinte mensagem no terminal `## BATCH <ID> FINALIZADO. AGUARDANDO NOVAS REQUISICOES ##`, significa que aplicação está pronta para receber novos dados.***

@@ -72,12 +72,14 @@ def generate_metrics(df, epoch_id):
     with open('./logs', 'a') as f:
       f.write(period + "\n" + metrics + "\n\n" + "%s" % (tabulate(response_count_words[1], headers=columnNames, tablefmt="fancy_grid")) + '\n' + broken + '\n')
 
+  print('\\n## BATCH {} FINALIZADO. AGUARDANDO NOVAS REQUISICOES ##\n\n'.format(epoch_id))
+
 if __name__ == "__main__":
   spark = SparkSession.builder.appName("StructuredKafkaWordCount").getOrCreate()
   spark.sparkContext.setLogLevel("WARN")
 
   # Cria um DataFrame representando o fluxo de linhas de entrada da conexão para <host>:<port> e para o topic especificado
-  lines = spark.readStream.format("kafka").option("kafka.bootstrap.servers", "localhost:9092").option("subscribe", "topic1").load()
+  lines = spark.readStream.format("kafka").option("kafka.bootstrap.servers", "localhost:9092").option("subscribe", "pspd-topic").load()
 
   # Divide as linhas em palavras
   words = lines.select(explode(split(lines.value, ' ')).alias('word'))
