@@ -58,10 +58,10 @@ pip3 install -r requirements.txt
 
 ### Escrevendo um *evento* em um *tópico*
 
-1) Em um **terminal 3**, envie um texto através de um ***Kafka Producer*** e veja a saída resultante no **terminal 4**. Use o comando abaixo:
+1) Em um **terminal 3**, esteja na pasta `/Projeto de Pesquisa/part2`, e envie um texto através de um ***Kafka Producer*** e veja a saída resultante no **terminal 4**. Use o comando abaixo:
 
 ```bash
-python3 kafkaProducer.py localhost:9092 topic1
+python3 kafkaProducer.py localhost:9092
 ```
 
 *Obs1: será gerado um arquivo chamado **logs** com os resultados da contagem de palavras em diferentes categorias*.
