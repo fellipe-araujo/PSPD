@@ -1,7 +1,6 @@
 import sys
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import explode
-from pyspark.sql.functions import split
+from pyspark.sql.functions import explode, split, lower, regexp_replace, col
 from tabulate import tabulate
 from datetime import datetime
 
@@ -52,7 +51,10 @@ if __name__ == "__main__":
   # Divide as linhas em palavras
 	words = lines.select(explode(split(lines.value, " ")).alias("word"))
 
-  # Geraa a contagem de palavras em execução
+  # Remover vírgulas e pontos; e deixar tudo em lowercase
+	words = words.withColumn('word', lower(regexp_replace(col('word'), r'(\.|\,|\:|\"|\'|\(|\)|\;)', '')))
+
+  # Gera a contagem de palavras em execução
 	wordCounts = words.groupBy("word").count()
 
   # Começa a executar a consulta e, para cada requisição, é executada a função personalizada 'generate_metrics'
